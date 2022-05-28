@@ -43,41 +43,36 @@
 
 
         </Button>
-        <StackPanel
-                    Grid.Row="1" 
+
+        <ListView x:Name="box" 
+                  Grid.Row="1" 
                   Grid.Column="0" 
                   Margin="110,0,0,0"
-                  Grid.ColumnSpan="3">
-            <TextBox/>
-
-            <ListView x:Name="box" 
-                  Margin="0 20 0 0"
+                  Grid.ColumnSpan="3"
                   >
-                <ListView.Resources>
-                    <Style TargetType="{x:Type GridViewColumnHeader}">
-                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    </Style>
-                </ListView.Resources>
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.Resources>
 
-                <ListView.View >
+            <ListView.View >
 
-                    <GridView >
-
-
-                        <GridViewColumn DisplayMemberBinding="{Binding ID }" Header="ID" Width="100" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Name }" Header="Name" Width="150"></GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding Surname}" Header="Surname" Width="150"></GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding Phone}" Header="Phone" Width="200"></GridViewColumn>
+                <GridView >
 
 
-                    </GridView>
-                </ListView.View>
+                    <GridViewColumn DisplayMemberBinding="{Binding ID }" Header="ID" Width="100" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Name }" Header="Name" Width="150"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Surname}" Header="Surname" Width="150"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Phone}" Header="Phone" Width="200"></GridViewColumn>
+
+
+                </GridView>
+            </ListView.View>
 
 
 
-            </ListView>
-        </StackPanel>
-      
+        </ListView>
 
 
         <Button
@@ -88,7 +83,7 @@
             HorizontalAlignment="Left"
             Command="{StaticResource Exit}" Margin="80,18,0,15">
             <materialDesign:PackIcon Kind="Close" 
-                                      Width="85"
+                                      Width="92"
                                      Height="30"
                                      VerticalAlignment="Center"
                                      Foreground="Black"
@@ -101,7 +96,7 @@
             Content="Add new person" 
             FontFamily="Bahnschrift Condensed" 
             FontSize="25"/>
-       
+
 
 
 

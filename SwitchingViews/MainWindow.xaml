@@ -7,7 +7,7 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         xmlns:views="clr-namespace:SwitchingViews.Views"
-        Title="MainWindow" Height="450" Width="800" WindowStyle="None" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="450" Width="800" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
     <ContentControl Content="{Binding CurrentViewModel}" >
         <ContentControl.Resources>
             <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
