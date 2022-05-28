@@ -29,7 +29,22 @@
             FontFamily="Bahnschrift Condensed"
             
             />
-        <Button Grid.Column="1" Grid.Row="1" Command="{Binding NavigateAccountCommand }" >
+        <Button
+            Background="Transparent"
+            BorderThickness="0"
+            Grid.Column="2"
+            Width="80"
+            Height="30"
+            HorizontalAlignment="Right"
+            Command="{StaticResource Exit}">
+            <materialDesign:PackIcon Kind="Close" 
+                                      Width="85"
+                                     Height="30"
+                                     VerticalAlignment="Center"
+                                     Foreground="Black"
+                                     HorizontalAlignment="Center"/>
+
+
 
         </Button>
     </Grid>

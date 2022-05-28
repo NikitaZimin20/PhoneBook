@@ -17,5 +17,6 @@ namespace SwitchingViews.ViewModels
         {
             NavigateAccountCommand = new NavigateCommand<AccountViewModel>(navigationstore,()=>new AccountViewModel(navigationstore));
         }
+      
     }
 }
