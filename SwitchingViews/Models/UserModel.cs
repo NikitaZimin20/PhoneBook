@@ -1,15 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PhoneBook.Models
 {
-    internal class UserModel
+    public class UserModel: INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Phone { get; set; }
+        private string _id;
+        private string _name;
+        private string _surname;
+        private string _phone;
+
+        public string ID
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                OnPropertyChanged("ID");
+            }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        public string Surname
+        {
+            get { return _surname; }
+            set
+            {
+                _surname = value;
+                OnPropertyChanged("Surname");
+            }
+        }
+
+        public string Phone
+        {
+            get { return _phone; }
+            set
+            {
+                _phone = value;
+                OnPropertyChanged("Phone");
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
     }
 }

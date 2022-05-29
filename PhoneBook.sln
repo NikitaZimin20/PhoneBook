@@ -5,9 +5,7 @@ VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhoneBook", "SwitchingViews\PhoneBook.csproj", "{B642F9B6-B28C-45EC-9711-69676E3BF84C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlClassLibrary", "XmlClassLibrary\XmlClassLibrary.csproj", "{10F93BD6-60E7-4BF8-80F0-FD8344B9D9CE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HamburgerMenu", "HamburgerMenu\HamburgerMenu.csproj", "{B73D159B-98AF-4C1D-BF19-1678C5F67D04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HamburgerMenu", "HamburgerMenu\HamburgerMenu.csproj", "{B73D159B-98AF-4C1D-BF19-1678C5F67D04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{B642F9B6-B28C-45EC-9711-69676E3BF84C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B642F9B6-B28C-45EC-9711-69676E3BF84C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B642F9B6-B28C-45EC-9711-69676E3BF84C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10F93BD6-60E7-4BF8-80F0-FD8344B9D9CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10F93BD6-60E7-4BF8-80F0-FD8344B9D9CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10F93BD6-60E7-4BF8-80F0-FD8344B9D9CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10F93BD6-60E7-4BF8-80F0-FD8344B9D9CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B73D159B-98AF-4C1D-BF19-1678C5F67D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B73D159B-98AF-4C1D-BF19-1678C5F67D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B73D159B-98AF-4C1D-BF19-1678C5F67D04}.Release|Any CPU.ActiveCfg = Release|Any CPU

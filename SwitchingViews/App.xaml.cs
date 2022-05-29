@@ -19,7 +19,7 @@ namespace SwitchingViews
         protected override void OnStartup(StartupEventArgs e)
         {
             NavigationStore navigationStore = new NavigationStore();
-            navigationStore.CurrentViewModel=new AccountViewModel(navigationStore);
+            navigationStore.CurrentViewModel=new HomeViewModel(navigationStore);
 
             MainWindow = new MainWindow()
             {

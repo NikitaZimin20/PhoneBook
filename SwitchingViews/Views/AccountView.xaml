@@ -20,20 +20,7 @@
         </Button>
         <StackPanel>
            
-            <TextBox
-                Background="White"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-            Width="100"
-            Height="30"
-            FontSize="28"
-        materialDesign:HintAssist.Hint="Name"
-        materialDesign:HintAssist.Background="Transparent"
-        BorderThickness="2"
-
-        Style="{StaticResource MaterialDesignOutlinedTextBox}"
-        Foreground="#FFF4EEEE" 
-   />
+           
         </StackPanel>
       
         <Button 
@@ -69,7 +56,9 @@
             materialDesign:HintAssist.Background="Transparent"
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
             Foreground="#FFF4EEEE" Cursor="IBeam"
-            Margin="0 10 0 0">
+            Margin="0 10 0 0"
+             Text="{Binding Path=SelectedUser.Name}"
+                >
             </TextBox>
 
             <TextBox 

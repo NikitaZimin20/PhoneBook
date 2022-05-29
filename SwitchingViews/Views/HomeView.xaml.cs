@@ -23,6 +23,9 @@ namespace SwitchingViews.Views
         public HomeView()
         {
             InitializeComponent();
+            
         }
+
+        
     }
 }

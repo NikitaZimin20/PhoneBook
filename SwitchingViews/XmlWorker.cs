@@ -1,12 +1,16 @@
-﻿using System.Xml;
+﻿using PhoneBook.Models;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
-using XmlClassLibrary.Models;
 
-namespace XmlClassLibrary
+
+namespace PhoneBook
 {
-    class XmlWorker
+   public class XmlWorker
     {
-        public List<UserModel> LoadFromXml(List<UserModel> user)
+        public ObservableCollection<UserModel> LoadFromXml(ObservableCollection<UserModel> user)
         {
 
             XmlDocument xDoc = new XmlDocument();
@@ -15,7 +19,7 @@ namespace XmlClassLibrary
 
             foreach (XmlElement xnode in xRoot)
             {
-                user.Add(new UserModel { Id = xnode.Attributes.GetNamedItem("ID").Value, Name = xnode.ChildNodes.Item(0).InnerText.Trim(), Surname = xnode.ChildNodes.Item(1).InnerText.Trim(), Phone = xnode.ChildNodes.Item(2).InnerText.Trim() });
+                user.Add(new UserModel { ID = xnode.Attributes.GetNamedItem("ID").Value, Name = xnode.ChildNodes.Item(0).InnerText.Trim(), Surname = xnode.ChildNodes.Item(1).InnerText.Trim(), Phone = xnode.ChildNodes.Item(2).InnerText.Trim() });
             }
             return user;
 
