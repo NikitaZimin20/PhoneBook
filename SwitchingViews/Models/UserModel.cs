@@ -61,5 +61,17 @@ namespace PhoneBook.Models
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
+        public bool StartWith(string pattern)
+        {
+            if (ID.StartsWith(pattern)) return true;
+            if (Name.StartsWith(pattern)) return true;
+            if (Surname.StartsWith(pattern)) return true;
+            if (Phone.StartsWith(pattern)) return true;
+
+
+            return false;
+
+
+        }
     }
 }

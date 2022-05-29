@@ -17,16 +17,27 @@ namespace SwitchingViews.ViewModels
     internal class HomeViewModel : ViewModelBase
     {
         
-        private UserModel selectedUser;
+        private UserModel _selecteduser;
+        string _pattern;
         private readonly XmlWorker worker = new();
         public  ICommand NavigateAccountCommand { get; set; }
       
        
         public ObservableCollection<UserModel> User { get; set; }
-       public UserModel SelectedUser
+        
+        public string Pattern
         {
-            get { return selectedUser; }
-            set { selectedUser = value;
+            get => _pattern;
+            set
+            {
+                _pattern = value;
+                SelectedUser = User.FirstOrDefault(s => s.StartWith(Pattern));
+            }
+        }
+        public UserModel SelectedUser
+        {
+            get { return _selecteduser; }
+            set { _selecteduser = value;
                 OnPropertyChanged("SelectedUser");
             }
         }

@@ -52,7 +52,10 @@
                 Margin="0 0 0 20" 
                 Height="25" 
                 Width="775"
-                materialDesign:HintAssist.Hint="Plese enter the user's name"/>
+                materialDesign:HintAssist.Hint="Plese enter the user's name"
+                Text="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}"
+               />
+            
             <ListView x:Name="box" 
                       
                       Height="275" 
@@ -60,6 +63,8 @@
                       ItemsSource="{Binding Path=User}"
                       SelectedItem="{Binding SelectedUser}"
                       Opacity="1"
+                      SelectionChanged="OnSelectionChanged"
+                      SelectionMode="Multiple"
                       
                       
                   >
@@ -72,7 +77,7 @@
 
                 <ListView.Resources>
                     <Style TargetType="{x:Type GridViewColumnHeader}">
-                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
                 </ListView.Resources>
                

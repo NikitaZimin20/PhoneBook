@@ -26,6 +26,10 @@ namespace SwitchingViews.Views
             
         }
 
-        
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var listBox = sender as ListBox;
+            listBox.ScrollIntoView(listBox.SelectedItem);
+        }
     }
 }
