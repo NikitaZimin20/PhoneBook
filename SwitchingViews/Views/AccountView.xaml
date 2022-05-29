@@ -13,6 +13,24 @@
         <Button Width=" 200 " Height="100" Content="Home" Command="{Binding NavigateHomeCommand}" Margin="565,340,35,10">
             
         </Button>
+        <StackPanel>
+           
+            <TextBox
+                Background="White"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+            Width="100"
+            Height="30"
+            FontSize="28"
+        materialDesign:HintAssist.Hint="Name"
+        materialDesign:HintAssist.Background="Transparent"
+        BorderThickness="2"
+
+        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+        Foreground="#FFF4EEEE" 
+   />
+        </StackPanel>
+      
         <Button 
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
@@ -28,10 +46,6 @@
             
             
         </Button>
-        <cc:MaskedTextBox
-            Width="150"
-            Height="30"
-            Mask="(000) 000-0000"/>
-        
+
     </Grid>
 </UserControl>

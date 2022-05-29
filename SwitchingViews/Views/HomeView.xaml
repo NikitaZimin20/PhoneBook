@@ -17,9 +17,9 @@
             <ColumnDefinition Width="160*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="13*"/>
-            <RowDefinition Height="62*"/>
-            <RowDefinition Height="15*"/>
+            <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
         <TextBlock
             Text="Anton's and Nikita's PhoneBook"
@@ -28,13 +28,13 @@
             Margin="230,0,0,0"
             Grid.ColumnSpan="2"
             FontSize="30" 
-            Height="39" 
+            Height="38" 
             FontFamily="Bahnschrift Condensed"
             />
         <Button
             Background="Transparent"
             BorderThickness="0"
-            Grid.Column="2" Margin="40,18,40,15">
+            Grid.Column="2" Margin="40,18,40,0">
             <materialDesign:PackIcon Kind="Close" 
                                       Width="85"
                                      Height="30"
@@ -43,36 +43,45 @@
 
 
         </Button>
-
-        <ListView x:Name="box" 
-                  Grid.Row="1" 
-                  Grid.Column="0" 
-                  Margin="110,0,0,0"
-                  Grid.ColumnSpan="3"
+        <StackPanel Grid.Column="0" 
+                 
+                  Grid.ColumnSpan="3" Grid.Row="1">
+            <TextBox
+                Margin="0 0 20 20" 
+                Height="25" 
+                Width="775"
+                materialDesign:HintAssist.Hint="Plese enter the user's name"/>
+            <ListView x:Name="box" 
+                 Margin="80 0 0 0"
+                      Height="20" 
+                      Width="635"
+                      
                   >
-            <ListView.Resources>
-                <Style TargetType="{x:Type GridViewColumnHeader}">
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                </Style>
-            </ListView.Resources>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </ListView.Resources>
 
-            <ListView.View >
+                <ListView.View >
 
-                <GridView >
-
-
-                    <GridViewColumn DisplayMemberBinding="{Binding ID }" Header="ID" Width="100" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Name }" Header="Name" Width="150"></GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Surname}" Header="Surname" Width="150"></GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Phone}" Header="Phone" Width="200"></GridViewColumn>
+                    <GridView >
 
 
-                </GridView>
-            </ListView.View>
+                        <GridViewColumn DisplayMemberBinding="{Binding ID }" Header="ID" Width="100" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Name }" Header="Name" Width="150"></GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Surname}" Header="Surname" Width="150"></GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Phone}" Header="Phone" Width="200"></GridViewColumn>
+
+
+                    </GridView>
+                </ListView.View>
 
 
 
-        </ListView>
+            </ListView>
+        </StackPanel>
+       
 
 
         <Button
@@ -81,7 +90,7 @@
             Grid.Column="2"
             Width="80"
             HorizontalAlignment="Left"
-            Command="{StaticResource Exit}" Margin="80,18,0,15">
+            Command="{StaticResource Exit}" Margin="80,18,0,0">
             <materialDesign:PackIcon Kind="Close" 
                                       Width="92"
                                      Height="30"
@@ -92,10 +101,10 @@
         <Button
             Grid.Column="1"
             Grid.Row="2"
-            Height="69"
+            Height="60"
             Content="Add new person" 
             FontFamily="Bahnschrift Condensed" 
-            FontSize="25"/>
+            FontSize="25" />
 
 
 

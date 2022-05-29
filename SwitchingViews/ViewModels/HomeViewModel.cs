@@ -11,7 +11,14 @@ namespace SwitchingViews.ViewModels
 {
     internal class HomeViewModel : ViewModelBase
     {
+        private string _id;
+        private string _name;
+        private string _surname;
+        private string _phone;
+      
+
        public  ICommand NavigateAccountCommand { get; }
+
        
         public HomeViewModel(NavigationStore navigationstore)
         {
