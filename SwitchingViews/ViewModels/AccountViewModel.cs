@@ -20,12 +20,13 @@ namespace SwitchingViews.ViewModels
     {
         
         private UserModel _selecteduser;
-        private XmlWorker _worker;
+        private XmlWorker _worker = new XmlWorker();
         private NavigationStore _navigationstore;
         private  string _name;
         private string _phone;
         private string _surname;
-        private readonly CaseManager _caseManager = CaseManager.Save;
+        private string _id;
+        private readonly CaseManager _caseManager;
         public string Name
         {
             get => _name;
@@ -54,29 +55,49 @@ namespace SwitchingViews.ViewModels
             }
         }
 
+        public string ID
+        {
+            get => _id;
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(ID));
+            }
+        }
+
 
 
 
         public ICommand NavigateHomeCommand { get; set; }
        public ICommand SaveCommand { get; }
 
+        public ICommand DeleteCommand { get; }
+
         private bool CanExecuteTakeNoteCommand(object p) => true;
         private void OnExecuteTakeNoteCommand(object p)
         {
-            _navigationstore = new NavigationStore();
-            _worker = new XmlWorker();
+            _navigationstore = new NavigationStore();        
             _selecteduser = new UserModel() { Name = this.Name, Surname = this.Surname, Phone = this.Phone };
             if (_caseManager == CaseManager.Save)
                 _worker.AddToXML(_selecteduser);
             else _worker.ChangeXML(_selecteduser);
-           
-           
 
+            GoHome(_navigationstore);
         }
+
+        private bool CanExecuteDeleteCommand(object obj) => true;
+
+        private void OnExecuteDeleteCommand(object obj)
+        {
+            _worker.DeleteFromXml(ID);
+            _navigationstore = new NavigationStore();
+            GoHome(_navigationstore);
+        }
+
         private void GoHome(NavigationStore navigationStore)
         {
-            navigationStore = new HomeViewModel(navigationStore);
-            NavigateHomeCommand.Execute(_navigationstore.CurrentViewModel);
+            navigationStore.CurrentViewModel = new HomeViewModel(navigationStore);
+            NavigateHomeCommand.Execute(navigationStore.CurrentViewModel);
         }
 
 
@@ -93,11 +114,13 @@ namespace SwitchingViews.ViewModels
                 Name = model.Name;
                 Surname = model.Surname;
                 Phone = model.Phone;
+                ID = model.ID;
             }
             
             
             SaveCommand = new RelayCommand(OnExecuteTakeNoteCommand,CanExecuteTakeNoteCommand);
-           
+            DeleteCommand = new RelayCommand(OnExecuteDeleteCommand, CanExecuteDeleteCommand);
+
         }
      
 
