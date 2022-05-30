@@ -31,5 +31,10 @@ namespace SwitchingViews.Views
             var listBox = sender as ListBox;
             listBox.ScrollIntoView(listBox.SelectedItem);
         }
+
+        private void ListViewItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

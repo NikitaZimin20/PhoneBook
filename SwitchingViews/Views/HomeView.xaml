@@ -4,14 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SwitchingViews.Views" xmlns:viewmodels="clr-namespace:SwitchingViews.ViewModels" 
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" d:DataContext="{d:DesignInstance Type=viewmodels:HomeViewModel}"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d" 
              xmlns:cc="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-            
-            
-            Height="450" Width="800"
-             >
+             d:DataContext="{d:DesignInstance Type=viewmodels:HomeViewModel}"
+             Height="450" Width="800 "
+            >
+    
     <Grid Background="White" Margin="25,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="47*"/>
@@ -45,6 +44,7 @@
 
 
         </Button>
+        
         <StackPanel Grid.Column="0" 
                  
                   Grid.ColumnSpan="3" Grid.Row="1">
@@ -52,28 +52,31 @@
                 Margin="0 0 0 20" 
                 Height="25" 
                 Width="775"
+                
                 materialDesign:HintAssist.Hint="Plese enter the user's name"
                 Text="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}"
                />
             
             <ListView x:Name="box" 
                       
-                      Height="275" 
+                      MinHeight="100"
+                      MaxHeight="225"
                       Width="771"
-                      ItemsSource="{Binding Path=User}"
+                      ItemsSource="{Binding User}"
                       SelectedItem="{Binding SelectedUser}"
                       Opacity="1"
                       SelectionChanged="OnSelectionChanged"
-                      SelectionMode="Multiple"
                       
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" SelectionMode="Single"
                       
                   >
                
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction
-                Command="{Binding Path=NavigateAccountCommand, Mode=OneWay}"/>
-                        
+                Command="{Binding Path=NavigateAccountCommand, Mode=OneWay}"
+                            CommandParameter="{Binding SelectedUser}"/>
+                       
                     </i:EventTrigger>
                    
                 </i:Interaction.Triggers>
@@ -86,8 +89,8 @@
                     </Style>
                     
                 </ListView.Resources>
+
                
-                
                 <ListView.View >
 
 

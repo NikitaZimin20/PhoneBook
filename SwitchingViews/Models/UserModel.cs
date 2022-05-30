@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Models
+namespace SwitchingViews.Models
 {
     public class UserModel: INotifyPropertyChanged
     {
@@ -14,6 +14,7 @@ namespace PhoneBook.Models
         private string _name;
         private string _surname;
         private string _phone;
+        private UserModel _selecteduser;
 
         public string ID
         {
@@ -54,6 +55,8 @@ namespace PhoneBook.Models
                 OnPropertyChanged("Phone");
             }
         }
+
+   
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

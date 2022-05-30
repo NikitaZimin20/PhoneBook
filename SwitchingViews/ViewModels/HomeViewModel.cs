@@ -1,7 +1,9 @@
 ﻿using PhoneBook;
 using PhoneBook.Commands;
 using PhoneBook.Models;
+using PhoneBook.Stores;
 using SwitchingViews.Commands;
+using SwitchingViews.Models;
 using SwitchingViews.Stores;
 using System;
 using System.Collections.Generic;
@@ -21,8 +23,10 @@ namespace SwitchingViews.ViewModels
         string _pattern;
         private readonly XmlWorker worker = new();
         public  ICommand NavigateAccountCommand { get; set; }
+
       
        
+
         public ObservableCollection<UserModel> User { get; set; }
         
         public string Pattern
@@ -38,7 +42,9 @@ namespace SwitchingViews.ViewModels
         {
             get { return _selecteduser; }
             set { _selecteduser = value;
-                OnPropertyChanged("SelectedUser");
+
+                OnPropertyChanged(nameof(SelectedUser));
+                UserStore.BroadCast(SelectedUser);
             }
         }
         
@@ -47,7 +53,7 @@ namespace SwitchingViews.ViewModels
         {
             NavigateAccountCommand = new NavigateCommand<AccountViewModel>(navigationstore,()=>new AccountViewModel(navigationstore));
             User = new ObservableCollection<UserModel>();
-            AccountViewModel model = new AccountViewModel(navigationstore);
+           
             OnPropertyChanged(nameof(User));
             User = worker.LoadFromXml(User);
             
