@@ -42,18 +42,18 @@ namespace PhoneBook
         }
 
 
-        public void AddToXML(string username, string surname, string phone)
+        public void AddToXML(UserModel model)
         {
             var xd = new XmlDocument();
             xd.Load(Configuration.FilePath);
             XmlNode nl = xd.SelectSingleNode("users");
             XmlDocument xd2 = new XmlDocument();
-            xd2.LoadXml("<user ID='" + GetLastID() + "'><name>" + username + "</name><surname>" + surname + "</surname><phone>" + phone + "</phone></user>");
+            xd2.LoadXml("<user ID='" + GetLastID() + "'><name>" + model.Name + "</name><surname>" + model.Surname + "</surname><phone>" + model.Phone + "</phone></user>");
             XmlNode n = xd.ImportNode(xd2.FirstChild, true);
             nl.AppendChild(n);
             xd.Save(Configuration.FilePath);
         }
-        public void ChangeXML(string InputId, string name, string surname, string phone)
+        public void ChangeXML(UserModel user)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(Configuration.FilePath);
@@ -70,11 +70,11 @@ namespace PhoneBook
                     string currentValue = idAttribute.Value;
 
 
-                    if (currentValue == InputId)
+                    if (currentValue == user.ID)
                     {
-                        aNode.ChildNodes.Item(0).InnerText = name;
-                        aNode.ChildNodes.Item(1).InnerText = surname;
-                        aNode.ChildNodes.Item(2).InnerText = phone;
+                        aNode.ChildNodes.Item(0).InnerText = user.Name;
+                        aNode.ChildNodes.Item(1).InnerText = user.Surname;
+                        aNode.ChildNodes.Item(2).InnerText = user.Phone;
                     }
                 }
             }

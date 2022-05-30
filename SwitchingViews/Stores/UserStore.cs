@@ -16,6 +16,6 @@ namespace SwitchingViews.Stores
                 OnMessageTransmitted(message);
         }
 
-        public static Action<UserModel> OnMessageTransmitted;
+        public static  event Action<UserModel> OnMessageTransmitted;
     }
 }

@@ -3,6 +3,6 @@
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                   xmlns:cmd="clr-namespace:PhoneBook.Commands">
     <cmd:ExitCommand x:Key="Exit"/>
-   
+    
 
 </ResourceDictionary>

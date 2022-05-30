@@ -1,4 +1,6 @@
-﻿using PhoneBook.Models;
+﻿using PhoneBook;
+using PhoneBook.Commands;
+using PhoneBook.Models;
 using PhoneBook.Stores;
 using SwitchingViews.Commands;
 using SwitchingViews.Models;
@@ -16,35 +18,84 @@ namespace SwitchingViews.ViewModels
 {
     internal class AccountViewModel : ViewModelBase
     {
-
+        
         private UserModel _selecteduser;
-       public UserModel SelectedUser
+        private XmlWorker _worker;
+        private NavigationStore _navigationstore;
+        private  string _name;
+        private string _phone;
+        private string _surname;
+        private readonly CaseManager _caseManager;
+        public string Name
         {
-            get { return _selecteduser; }
-            set { _selecteduser = value;
-               
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
             }
         }
-        public ICommand NavigateHomeCommand { get; }
+        public string Surname
+        {
+            get => _surname;
+            set
+            {
+                _surname = value;
+                OnPropertyChanged(nameof(Surname));
+            }
+        }
+        public string Phone
+        {
+            get => _phone;
+            set
+            {
+                _phone = value;
+                OnPropertyChanged(nameof(Phone));
+            }
+        }
+
+
+
+
+        public ICommand NavigateHomeCommand { get; set; }
+       public ICommand SaveCommand { get; }
+
+        private bool CanExecuteTakeNoteCommand(object p) => true;
+        private void OnExecuteTakeNoteCommand(object p)
+        {
+            _navigationstore = new NavigationStore();
+            _worker = new XmlWorker();
+            _selecteduser = new UserModel() { Name = this.Name, Surname = this.Surname, Phone = this.Phone };
+            if (_caseManager == CaseManager.Save)
+                _worker.AddToXML(_selecteduser);
+            else _worker.ChangeXML(_selecteduser);
+           
+            _navigationstore.CurrentViewModel = new HomeViewModel(_navigationstore);
+            NavigateHomeCommand.Execute(_navigationstore.CurrentViewModel);
+
+        }
+
+
         public ObservableCollection<UserModel> User { get; set; }
         
-        public AccountViewModel(NavigationStore navigationstore)
-        {
-
-            UserStore.OnMessageTransmitted+=OnMessageReceived;
+        public AccountViewModel(NavigationStore navigationstore,UserModel model)
+        {            
             HomeViewModel homeViewModel = new HomeViewModel(navigationstore);
-           
+         
             NavigateHomeCommand = new NavigateCommand<HomeViewModel>(navigationstore,()=>new HomeViewModel(navigationstore));
+            if (model is not null)
+            {
+                _caseManager = CaseManager.Change;
+                Name = model.Name;
+                Surname = model.Surname;
+                Phone = model.Phone;
+            }
+            _caseManager = CaseManager.Save;
             
-            User = new ObservableCollection<UserModel>()
-           {
-               
-           };
+            SaveCommand = new RelayCommand(OnExecuteTakeNoteCommand,CanExecuteTakeNoteCommand);
+           
         }
-        private void OnMessageReceived(UserModel model )
-        {
-          SelectedUser= model;
-        }
+     
 
 
     } 
