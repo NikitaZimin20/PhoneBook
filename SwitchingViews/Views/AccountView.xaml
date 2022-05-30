@@ -13,11 +13,22 @@
              >
     <Grid Background="White">
 
-        <Button Width=" 150 " Height="80" Content="Home" 
-                Margin="0 0 0 20"
-                HorizontalAlignment="Center"
+        <Button Width=" 130 " Height="70" Content="Save" 
+                
+                HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
-                Command="{Binding Path=SaveCommand}">
+                Margin="0 0 30 20"
+                Command="{Binding Path=SaveCommand}"
+                >
+
+        </Button>
+        <Button Width=" 130 " Height="70" Content="Cancel" 
+                
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Margin="30 0 0 20"
+                Command="{Binding Path=NavigateHomeCommand}"
+                >
 
         </Button>
         <StackPanel>
@@ -93,19 +104,21 @@
             Margin="0 50 0 0"
             Text="{Binding Path=Surname,Mode=TwoWay}">
             </TextBox>
-
-            <TextBox
-                 Width="300"
+            <cc:MaskedTextBox
+               Width="300"
             FontSize="22"
             materialDesign:HintAssist.Hint="Phone"
             materialDesign:HintAssist.Background="Transparent"
             Style="{StaticResource  MaterialDesignFloatingHintTextBox}"
             Foreground="Black" 
             Cursor="IBeam"
+            Mask="+7 (000) 000 00 00 "
             Text="{Binding Path=Phone,Mode=TwoWay}"
             Margin="0 50 0 0" 
-            FontFamily="Bahnschrift Condensed"
-          />
+            FontFamily="Bahnschrift Condensed"  />
+
+
+         
             
 
 

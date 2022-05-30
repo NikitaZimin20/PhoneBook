@@ -37,6 +37,7 @@ namespace PhoneBook
                     xRoot.RemoveChild(item);
                 }
             }
+            ChangeElement(xDoc);
             xDoc.Save(Configuration.FilePath);
 
         }
@@ -44,6 +45,7 @@ namespace PhoneBook
 
         public void AddToXML(UserModel model)
         {
+            
             var xd = new XmlDocument();
             xd.Load(Configuration.FilePath);
             XmlNode nl = xd.SelectSingleNode("users");
@@ -52,6 +54,7 @@ namespace PhoneBook
             XmlNode n = xd.ImportNode(xd2.FirstChild, true);
             nl.AppendChild(n);
             xd.Save(Configuration.FilePath);
+            
         }
         public void ChangeXML(UserModel user)
         {
@@ -80,6 +83,17 @@ namespace PhoneBook
             }
             doc.Save(Configuration.FilePath);
         }
+        private void ChangeElement(XmlDocument doc)
+        {
+            XmlNodeList aNodes = doc.SelectNodes("users/user");
+            int count = aNodes.Count;
+
+            for (int i = 0; i < count; i++)
+            {
+                aNodes[i].Attributes["ID"].Value = (i+1).ToString();
+            }
+        }
+        
         private string GetLastID()
         {
             var xdoc = XDocument.Load(Configuration.FilePath);

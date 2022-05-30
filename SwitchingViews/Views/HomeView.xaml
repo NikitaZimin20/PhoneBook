@@ -67,7 +67,8 @@
                       Opacity="1"
                       SelectionChanged="OnSelectionChanged"
                       
-                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" SelectionMode="Single"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+                      SelectionMode="Multiple"
                       
                   >
                
