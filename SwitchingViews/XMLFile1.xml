@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<users>
+  <user ID="2">
+    <name>Nikita</name>
+    <surname>Zimin</surname>
+    <phone>+7(985)-269-2747</phone>
+  </user>
+  <user ID="3">
+    <name>Nika</name>
+    <surname>Gachi</surname>
+    <phone>+7(843)-234-2434</phone>
+  </user>
+  <user ID="4">
+    <name>Stepa</name>
+    <surname>Pikalov</surname>
+    <phone>+7(923)-134-24-23</phone>
+  </user>
+  <user ID="5">
+    <name>Andrey</name>
+    <surname>Kapina</surname>
+    <phone>+7(916)-238-44-90</phone>
+  </user>
+  <user ID="6">
+    <name>Nikita</name>
+    <surname>Gleb</surname>
+    <phone>+7(932)-323-23-23</phone>
+  </user>
+</users>

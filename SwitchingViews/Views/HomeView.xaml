@@ -68,17 +68,23 @@
                       
                       
                   >
+               
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction
                 Command="{Binding Path=NavigateAccountCommand, Mode=OneWay}"/>
+                        
                     </i:EventTrigger>
+                   
                 </i:Interaction.Triggers>
+                
 
+                
                 <ListView.Resources>
                     <Style TargetType="{x:Type GridViewColumnHeader}">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
+                    
                 </ListView.Resources>
                
                 
@@ -110,14 +116,15 @@
             BorderThickness="0"
             Grid.Column="2"
             Width="80"
-            HorizontalAlignment="Left"
-            Command="{StaticResource Exit}" Margin="80,18,0,0">
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Command="{StaticResource Exit}" Margin="120,0,0,0">
             <materialDesign:PackIcon Kind="Close" 
                                       Width="92"
                                      Height="30"
                                      VerticalAlignment="Center"
                                      Foreground="Black"
-                                     HorizontalAlignment="Center"/>
+                                     HorizontalAlignment="Center" RenderTransformOrigin="0.554,0.367"/>
         </Button>
         <Button
             Grid.Column="1"
