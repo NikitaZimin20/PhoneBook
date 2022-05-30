@@ -43,6 +43,24 @@
 
         </Button>
 
+        <Button 
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="-35 0 0 0"
+            Background="Transparent"
+            BorderThickness="0"
+            Command="{Binding Path=DeleteCommand}">
+            <materialDesign:PackIcon 
+                Kind="Garbage"                                           
+                Width="85"
+                Height="30"
+                VerticalAlignment="Center"
+                Foreground="Black"
+                HorizontalAlignment="Center"/>
+
+
+        </Button>
+
         <StackPanel>
             <TextBlock 
                 HorizontalAlignment="Center" FontSize="30" 
