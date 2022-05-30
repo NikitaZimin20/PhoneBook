@@ -25,7 +25,7 @@ namespace SwitchingViews.ViewModels
         private  string _name;
         private string _phone;
         private string _surname;
-        private readonly CaseManager _caseManager;
+        private readonly CaseManager _caseManager = CaseManager.Save;
         public string Name
         {
             get => _name;
@@ -70,9 +70,13 @@ namespace SwitchingViews.ViewModels
                 _worker.AddToXML(_selecteduser);
             else _worker.ChangeXML(_selecteduser);
            
-            _navigationstore.CurrentViewModel = new HomeViewModel(_navigationstore);
-            NavigateHomeCommand.Execute(_navigationstore.CurrentViewModel);
+           
 
+        }
+        private void GoHome(NavigationStore navigationStore)
+        {
+            navigationStore = new HomeViewModel(navigationStore);
+            NavigateHomeCommand.Execute(_navigationstore.CurrentViewModel);
         }
 
 
@@ -90,7 +94,7 @@ namespace SwitchingViews.ViewModels
                 Surname = model.Surname;
                 Phone = model.Phone;
             }
-            _caseManager = CaseManager.Save;
+            
             
             SaveCommand = new RelayCommand(OnExecuteTakeNoteCommand,CanExecuteTakeNoteCommand);
            
