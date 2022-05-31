@@ -1,7 +1,6 @@
 ﻿using PhoneBook;
 using PhoneBook.Commands;
 using PhoneBook.Services;
-using PhoneBook.Stores;
 using SwitchingViews.Commands;
 using SwitchingViews.Models;
 using SwitchingViews.Stores;
@@ -52,9 +51,9 @@ namespace SwitchingViews.ViewModels
                 {
                     AddError(nameof(Name), "Invalid Name,It should cosist of less then 50 characters");
                 }
-                if (string.IsNullOrEmpty(_name))
+                else if (_name.Any(ch => !Char.IsLetterOrDigit(ch)))
                 {
-                    AddError(nameof(Name), "Empty field");
+                    AddError(nameof(Name), "It shouldn't contain spesial symbols");
                 }
                 OnPropertyChanged(nameof(Name));
             }
@@ -74,9 +73,9 @@ namespace SwitchingViews.ViewModels
                 {
                     AddError(nameof(Surname), "Invalid Surname,It should cosist of less then 50 characters");
                 }
-                if (string.IsNullOrEmpty(_surname))
+                else if (_surname.Any(ch => !Char.IsLetterOrDigit(ch)))
                 {
-                    AddError(nameof(Surname), "Empty field");
+                    AddError(nameof(Surname), "It shouldn't contain spesial symbols");
                 }
 
                 OnPropertyChanged(nameof(Surname));
@@ -94,7 +93,7 @@ namespace SwitchingViews.ViewModels
                 ClearErrors(nameof(Phone));
                 if (numbers.Length!=11)
                 {
-                    AddError(nameof(Surname), "It should consist 11 letters");
+                    AddError(nameof(Phone), "It should consist 11 letters");
                 }
                 if (numbers.Length==0)
                 {
@@ -126,10 +125,15 @@ namespace SwitchingViews.ViewModels
         private void OnExecuteTakeNoteCommand(object p)
         {
             _navigationstore = new NavigationStore();        
-            _selecteduser = new UserModel() { Name = this.Name, Surname = this.Surname, Phone = this.Phone };
+            _selecteduser = new UserModel() { ID=this.ID,Name = this.Name, Surname = this.Surname, Phone = this.Phone };
             if (_caseManager == CaseManager.Save)
                 _worker.AddToXML(_selecteduser);
-            else _worker.ChangeXML(_selecteduser);
+            else
+            {
+                MessageBox.Show("Test");
+                _worker.ChangeXML(_selecteduser);
+            }
+               
 
             GoHome(_navigationstore);
         }
@@ -138,9 +142,14 @@ namespace SwitchingViews.ViewModels
 
         private void OnExecuteDeleteCommand(object obj)
         {
-            _worker.DeleteFromXml(ID);
-            _navigationstore = new NavigationStore();
-            GoHome(_navigationstore);
+            if (MessageBox.Show("Do you want to delete this field?",
+                   "Attention", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                _worker.DeleteFromXml(ID);
+                _navigationstore = new NavigationStore();
+                GoHome(_navigationstore);
+            }
+               
         }
 
         private void GoHome(NavigationStore navigationStore)

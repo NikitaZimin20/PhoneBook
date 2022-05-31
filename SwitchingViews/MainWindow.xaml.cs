@@ -23,6 +23,7 @@ namespace SwitchingViews
         public MainWindow()
         {
             InitializeComponent();
+
         }
     }
 }

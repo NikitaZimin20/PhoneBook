@@ -9,6 +9,7 @@
              xmlns:cc="http://schemas.xceed.com/wpf/xaml/toolkit"
              d:DataContext="{d:DesignInstance Type=viewmodels:HomeViewModel}"
              Height="450" Width="800 "
+            
             >
     
     <Grid Background="White" Margin="25,0,0,0">
@@ -75,7 +76,7 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction
-                Command="{Binding Path=NavigateAccountCommand}"
+                Command="{Binding Path=NavigateAccountChangeCommand}"
                             CommandParameter="{Binding SelectedUser}"/>
                        
                     </i:EventTrigger>
@@ -137,7 +138,7 @@
             FontFamily="Bahnschrift Condensed" 
             FontSize="25" 
             Height="69"
-            Command="{Binding Path=NavigateAccountCommand}"/>
+            Command="{Binding Path=NavigateSaveCommand}"/>
 
 
 

@@ -37,11 +37,16 @@ namespace PhoneBook.Converters
 
         private bool IsValid(string value)
     {
-        if (value.Length > 2 && value.Length < 50)
-        {
-            return true;
-        }
-        return false;
+           
+            if (!(value.Length > 2 && value.Length < 50))
+
+                return false;
+
+            else if ((value.Any(ch => !Char.IsLetterOrDigit(ch))))
+
+                return false;
+          
+        return true;
     }
     private bool IsNumberValid(string value)
     {

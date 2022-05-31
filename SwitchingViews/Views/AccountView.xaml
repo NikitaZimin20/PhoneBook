@@ -10,6 +10,7 @@
             
              xmlns:cc="http://schemas.xceed.com/wpf/xaml/toolkit"
              Height="450" Width="400"
+              
              >
     <Grid Background="White">
 
@@ -82,14 +83,14 @@
 
         <StackPanel>
             <TextBlock 
-                Name="name"
+               
                 HorizontalAlignment="Center" FontSize="30" 
                 FontFamily="Bahnschrift Condensed"
                 Margin="0 10 0 0">
                 User card
             </TextBlock>
             <TextBox 
-        
+        Name="name"
             Width="300"
             FontSize="18"
             materialDesign:HintAssist.Hint="Name"
