@@ -19,8 +19,9 @@
                 VerticalAlignment="Bottom"
                 Margin="0 0 30 20"
                 Command="{Binding Path=SaveCommand}"
+                IsEnabled="{Binding CanCreate}"
                 >
-
+            
         </Button>
         <Button Width=" 130 " Height="70" Content="Cancel" 
                 
@@ -113,9 +114,10 @@
             Foreground="Black" 
             Cursor="IBeam"
             Mask="+7 (000) 000 00 00 "
-            Text="{Binding Path=Phone,Mode=TwoWay}"
+            Text="{Binding Path=Phone,ValidatesOnDataErrors=True}"
             Margin="0 50 0 0" 
-            FontFamily="Bahnschrift Condensed"  />
+            FontFamily="Bahnschrift Condensed" 
+                />
 
 
          

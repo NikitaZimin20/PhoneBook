@@ -68,14 +68,14 @@
                       SelectionChanged="OnSelectionChanged"
                       
                       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-                      SelectionMode="Multiple"
+                      SelectionMode="Single"
                       
                   >
                
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction
-                Command="{Binding Path=NavigateAccountCommand, Mode=OneWay}"
+                Command="{Binding Path=NavigateAccountCommand}"
                             CommandParameter="{Binding SelectedUser}"/>
                        
                     </i:EventTrigger>

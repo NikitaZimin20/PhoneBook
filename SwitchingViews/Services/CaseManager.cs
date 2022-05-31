@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Models
+namespace PhoneBook.Services
 {
-    internal class SearchViewModel
+    internal enum CaseManager
     {
+        Save,
+        Change
     }
 }

@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook
+namespace PhoneBook.Converters
 {
-    internal enum CaseManager
+    internal class PhoneToBoolConverter
     {
-        Save,
-        Change
     }
 }

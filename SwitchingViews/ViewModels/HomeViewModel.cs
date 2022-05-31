@@ -1,7 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using PhoneBook;
 using PhoneBook.Commands;
-using PhoneBook.Models;
+
 using PhoneBook.Stores;
 using SwitchingViews.Commands;
 using SwitchingViews.Models;
@@ -45,7 +45,7 @@ namespace SwitchingViews.ViewModels
             set { _selecteduser = value;
 
                 OnPropertyChanged(nameof(SelectedUser));
-                UserStore.BroadCast(_selecteduser);
+               
             }
         }
         

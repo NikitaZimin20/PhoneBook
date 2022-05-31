@@ -1,13 +1,15 @@
 ﻿using PhoneBook;
 using PhoneBook.Commands;
-using PhoneBook.Models;
+using PhoneBook.Services;
 using PhoneBook.Stores;
 using SwitchingViews.Commands;
 using SwitchingViews.Models;
 using SwitchingViews.Stores;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,9 +18,9 @@ using System.Windows.Input;
 
 namespace SwitchingViews.ViewModels
 {
-    internal class AccountViewModel : ViewModelBase
+    internal class AccountViewModel : ViewModelBase,INotifyDataErrorInfo
     {
-        
+        private readonly Dictionary<string,List<string>>_propertyyErrors=new Dictionary<string, List<string>>() { };
         private UserModel _selecteduser;
         private XmlWorker _worker = new XmlWorker();
         private NavigationStore _navigationstore;
@@ -27,12 +29,33 @@ namespace SwitchingViews.ViewModels
         private string _surname;
         private string _id;
         private readonly CaseManager _caseManager;
+
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
         public string Name
         {
-            get => _name;
+            get
+            {
+               
+                return _name;
+            }
             set
             {
                 _name = value;
+
+                ClearErrors(nameof(Name));
+                if (_name.Length < 2)
+                {
+                    AddError(nameof(Name), "Invalid Name,It should cosist of at least 2 charachters");
+                }
+                else if (_name.Length > 50)
+                {
+                    AddError(nameof(Name), "Invalid Name,It should cosist of less then 50 characters");
+                }
+                if (string.IsNullOrEmpty(_name))
+                {
+                    AddError(nameof(Name), "Empty field");
+                }
                 OnPropertyChanged(nameof(Name));
             }
         }
@@ -42,6 +65,20 @@ namespace SwitchingViews.ViewModels
             set
             {
                 _surname = value;
+                ClearErrors(nameof(Surname));
+                if (_surname.Length < 2)
+                {
+                    AddError(nameof(Surname), "Invalid Surname,It should cosist of at least 2 charachters");
+                }
+                else if (_surname.Length > 50)
+                {
+                    AddError(nameof(Surname), "Invalid Surname,It should cosist of less then 50 characters");
+                }
+                if (string.IsNullOrEmpty(_surname))
+                {
+                    AddError(nameof(Surname), "Empty field");
+                }
+
                 OnPropertyChanged(nameof(Surname));
             }
         }
@@ -51,6 +88,17 @@ namespace SwitchingViews.ViewModels
             set
             {
                 _phone = value;
+                ClearErrors(nameof(Phone));
+                if (_phone.Length!=18)
+                {
+                    AddError(nameof(Surname), "It should consist 18 letters");
+                }
+                if (string.IsNullOrEmpty(_name))
+                {
+                    AddError(nameof(Phone), "Empty field");
+                }
+
+
                 OnPropertyChanged(nameof(Phone));
             }
         }
@@ -65,8 +113,11 @@ namespace SwitchingViews.ViewModels
             }
         }
 
-
-
+        public bool CanCreate => !HasErrors;
+        
+            
+            
+        
 
         public ICommand NavigateHomeCommand { get; set; }
        public ICommand SaveCommand { get; }
@@ -100,9 +151,35 @@ namespace SwitchingViews.ViewModels
             NavigateHomeCommand.Execute(navigationStore.CurrentViewModel);
         }
 
+        public IEnumerable GetErrors(string? propertyName)
+        {
+            return _propertyyErrors.GetValueOrDefault(propertyName,null);
+        }
+        private void ClearErrors(string propertyname)
+        {
+            if (_propertyyErrors.Remove(propertyname))
+
+                OnErrorsChanged(propertyname);
+        }
 
         public ObservableCollection<UserModel> User { get; set; }
-        
+
+        public bool HasErrors => _propertyyErrors.Any();
+        public void AddError(string propertyName,string errorMessage)
+        {
+            if (!_propertyyErrors.ContainsKey(propertyName))
+            {
+                _propertyyErrors.Add(propertyName, new List<string>());
+            }
+            _propertyyErrors[propertyName].Add(errorMessage);
+            OnErrorsChanged(propertyName);
+        }
+        private void OnErrorsChanged(string? propertyName)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            OnPropertyChanged(nameof(CanCreate));
+        }
+
         public AccountViewModel(NavigationStore navigationstore,UserModel model)
         {            
             HomeViewModel homeViewModel = new HomeViewModel(navigationstore);
