@@ -19,9 +19,15 @@
                 VerticalAlignment="Bottom"
                 Margin="0 0 30 20"
                 Command="{Binding Path=SaveCommand}"
-                IsEnabled="{Binding CanCreate}"
+               
                 >
-            
+            <Button.IsEnabled>
+                <MultiBinding Converter="{StaticResource StringtoBoolConverter}">
+                    <Binding ElementName="name" Path="Text"/>
+                    <Binding ElementName="surname" Path="Text"/>
+                    <Binding ElementName="phone" Path="Text"/>
+                </MultiBinding>
+            </Button.IsEnabled>
         </Button>
         <Button Width=" 130 " Height="70" Content="Cancel" 
                 
@@ -75,6 +81,7 @@
 
         <StackPanel>
             <TextBlock 
+                Name="name"
                 HorizontalAlignment="Center" FontSize="30" 
                 FontFamily="Bahnschrift Condensed"
                 Margin="0 10 0 0">
@@ -95,7 +102,7 @@
             </TextBox>
 
             <TextBox 
-
+            Name="surname"
             Width="300"
             FontSize="18"
             materialDesign:HintAssist.Hint="Surname"
@@ -106,6 +113,7 @@
             Text="{Binding Path=Surname,Mode=TwoWay}">
             </TextBox>
             <cc:MaskedTextBox
+                Name="phone"
                Width="300"
             FontSize="22"
             materialDesign:HintAssist.Hint="Phone"

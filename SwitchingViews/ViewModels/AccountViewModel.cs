@@ -87,13 +87,15 @@ namespace SwitchingViews.ViewModels
             get => _phone;
             set
             {
+
                 _phone = value;
+                var numbers = _phone.Where(Char.IsDigit).ToArray();
                 ClearErrors(nameof(Phone));
-                if (_phone.Length!=18)
+                if (numbers.Length!=11)
                 {
-                    AddError(nameof(Surname), "It should consist 18 letters");
+                    AddError(nameof(Surname), "It should consist 11 letters");
                 }
-                if (string.IsNullOrEmpty(_name))
+                if (numbers.Length==0)
                 {
                     AddError(nameof(Phone), "Empty field");
                 }

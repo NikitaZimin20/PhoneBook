@@ -1,8 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                  xmlns:cmd="clr-namespace:PhoneBook.Commands">
+                  xmlns:cmd="clr-namespace:PhoneBook.Commands"
+                    xmlns:converters="clr-namespace:PhoneBook.Converters">
     <cmd:ExitCommand x:Key="Exit"/>
-    
+    <converters:StringtoBoolConverter x:Key="StringtoBoolConverter"/>
 
 </ResourceDictionary>
