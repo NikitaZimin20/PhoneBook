@@ -82,6 +82,7 @@ namespace SwitchingViews.ViewModels
                 OnPropertyChanged(nameof(Surname));
             }
         }
+        public bool IsDeleteeButtonOpen { get; }
         public string Phone
         {
             get => _phone;
@@ -99,8 +100,6 @@ namespace SwitchingViews.ViewModels
                 {
                     AddError(nameof(Phone), "Empty field");
                 }
-
-
                 OnPropertyChanged(nameof(Phone));
             }
         }
@@ -114,17 +113,14 @@ namespace SwitchingViews.ViewModels
                 OnPropertyChanged(nameof(ID));
             }
         }
+        
 
         public bool CanCreate => !HasErrors;
-        
-            
-            
-        
-
-        public ICommand NavigateHomeCommand { get; set; }
-       public ICommand SaveCommand { get; }
+        public ICommand NavigateHomeCommand { get; private set; }
+        public ICommand SaveCommand { get; }
 
         public ICommand DeleteCommand { get; }
+
 
         private bool CanExecuteTakeNoteCommand(object p) => true;
         private void OnExecuteTakeNoteCommand(object p)
@@ -167,6 +163,7 @@ namespace SwitchingViews.ViewModels
         public ObservableCollection<UserModel> User { get; set; }
 
         public bool HasErrors => _propertyyErrors.Any();
+        public bool CanOpen=>_caseManager == CaseManager.Change;
         public void AddError(string propertyName,string errorMessage)
         {
             if (!_propertyyErrors.ContainsKey(propertyName))
