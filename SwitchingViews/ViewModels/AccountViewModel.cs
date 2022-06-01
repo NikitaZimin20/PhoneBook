@@ -26,24 +26,12 @@ namespace SwitchingViews.ViewModels
         private readonly CaseManager _caseManager;
         private readonly Dictionary<Fields, ErrorsModel> _errorlist;
 
-        private void ShowErrors(string property,string propetyName,Fields type)
-        {
-            _errorsViewModel.ClearErrors(nameof(property));
-            if (property.Length < 2 &&type!=Fields.Phone)
-            
-                _errorsViewModel.AddError(propetyName, _errorlist[type].MoreSymbols );
-            
-            else if (property.Length > 50 && type != Fields.Phone)
-            
-                _errorsViewModel.AddError(propetyName, _errorlist[type].LessSymbols);
-            
-            else if (property.Any(ch => !Char.IsLetterOrDigit(ch)))
-            
-               _errorsViewModel.AddError(propetyName, _errorlist[type].LessSymbols);
+        public bool CanOpen => _caseManager == CaseManager.Change;
+        public bool HasErrors => _errorsViewModel.HasErrors;
+        public ICommand NavigateHomeCommand { get; private set; }
+        public ICommand SaveCommand { get; }
 
-            else if (property.Where(Char.IsDigit).ToArray().Length==11)
-                _errorsViewModel.AddError(propetyName, _errorlist[type].Phone);
-        }
+        public ICommand DeleteCommand { get; }
         public string Name
         {
             get
@@ -89,10 +77,6 @@ namespace SwitchingViews.ViewModels
                 OnPropertyChanged(nameof(ID));
             }
         }      
-        public ICommand NavigateHomeCommand { get; private set; }
-        public ICommand SaveCommand { get; }
-
-        public ICommand DeleteCommand { get; }
         private bool CanExecuteTakeNoteCommand(object p) => true;
         private void OnExecuteTakeNoteCommand(object p)
         {
@@ -105,7 +89,24 @@ namespace SwitchingViews.ViewModels
         }
 
         private bool CanExecuteDeleteCommand(object obj) => true;
+        private void ShowErrors(string property, string propetyName, Fields type)
+        {
+            _errorsViewModel.ClearErrors(nameof(property));
+            if (property.Length < 2 && type != Fields.Phone)
 
+                _errorsViewModel.AddError(propetyName, _errorlist[type].MoreSymbols);
+
+            else if (property.Length > 50 && type != Fields.Phone)
+
+                _errorsViewModel.AddError(propetyName, _errorlist[type].LessSymbols);
+
+            else if (property.Any(ch => !Char.IsLetterOrDigit(ch)))
+
+                _errorsViewModel.AddError(propetyName, _errorlist[type].LessSymbols);
+
+            else if (property.Where(Char.IsDigit).ToArray().Length == 11)
+                _errorsViewModel.AddError(propetyName, _errorlist[type].Phone);
+        }
         private void OnExecuteDeleteCommand(object obj)
         {
             if (MessageBox.Show("Do you want to delete this field?",
@@ -122,12 +123,11 @@ namespace SwitchingViews.ViewModels
             navigationStore.CurrentViewModel = new HomeViewModel(navigationStore);
             NavigateHomeCommand.Execute(navigationStore.CurrentViewModel);
         }
-        public bool CanOpen=>_caseManager == CaseManager.Change;
+        
         public IEnumerable GetErrors(string? propertyName)
         {
             return _errorsViewModel.GetErrors(propertyName);
         }
-        public bool HasErrors=>_errorsViewModel.HasErrors;
         public AccountViewModel(NavigationStore navigationstore,UserModel user,CaseManager caseManager)
         {
             _errorlist = new Dictionary<Fields, ErrorsModel>() { {Fields.Name, new ErrorsModel { MoreSymbols = JsonWorker.GetDescription("MoreSymbols", "Name"), LessSymbols = JsonWorker.GetDescription("LessSymbols", "Name"), Incorrectsymbols = JsonWorker.GetDescription("Incorrect Symbols") } },
