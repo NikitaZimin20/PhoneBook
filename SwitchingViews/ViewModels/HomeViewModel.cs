@@ -1,6 +1,8 @@
 ﻿using DevExpress.Mvvm;
 using PhoneBook;
 using PhoneBook.Commands;
+using PhoneBook.FileWorkes;
+using PhoneBook.Services;
 using SwitchingViews.Commands;
 using SwitchingViews.Models;
 using SwitchingViews.Stores;
@@ -20,10 +22,9 @@ namespace SwitchingViews.ViewModels
         
         private UserModel _selecteduser;
         string _pattern;
-        private readonly XmlWorker worker = new();
-        public  ICommand NavigateAccountChangeCommand { get;}
-        public  ICommand NavigateSaveCommand { get; }
-      public ICommand SaveCommand { get; set; }
+        
+        public  ICommand NavigateSaveCommand { get; set; }
+        public ICommand NavigateAccountChangeCommand { get; set; }
        
 
         public ObservableCollection<UserModel> User { get; set; }
@@ -50,12 +51,12 @@ namespace SwitchingViews.ViewModels
 
         public HomeViewModel(NavigationStore navigationstore)
         {
-            NavigateAccountChangeCommand = new NavigateCommand<AccountViewModel>(navigationstore,()=>new AccountViewModel(navigationstore,SelectedUser));
-            NavigateSaveCommand=new NavigateCommand<AccountViewModel>(navigationstore, () => new AccountViewModel(navigationstore, null));
+            NavigateSaveCommand = new NavigateCommand<AccountViewModel>(navigationstore,()=>new AccountViewModel(navigationstore,SelectedUser,CaseManager.Save));
+            NavigateAccountChangeCommand= new NavigateCommand<AccountViewModel>(navigationstore, () => new AccountViewModel(navigationstore, SelectedUser,CaseManager.Change));
             User = new ObservableCollection<UserModel>();
             
             OnPropertyChanged(nameof(User));
-            User = worker.LoadFromXml(User);
+            User = XmlWorker.LoadFromXml(User);
             
 
 

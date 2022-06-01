@@ -1,5 +1,5 @@
-﻿using PhoneBook;
-using PhoneBook.Commands;
+﻿using PhoneBook.Commands;
+using PhoneBook.FileWorkes;
 using PhoneBook.Services;
 using SwitchingViews.Commands;
 using SwitchingViews.Models;
@@ -19,122 +19,88 @@ namespace SwitchingViews.ViewModels
 {
     internal class AccountViewModel : ViewModelBase,INotifyDataErrorInfo
     {
-        private readonly Dictionary<string,List<string>>_propertyyErrors=new Dictionary<string, List<string>>() { };
-        private UserModel _selecteduser;
-        private XmlWorker _worker = new XmlWorker();
-        private NavigationStore _navigationstore;
-        private  string _name;
-        private string _phone;
-        private string _surname;
-        private string _id;
-        private readonly CaseManager _caseManager;
-
+        UserModel _user;
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+        private NavigationStore _navigationstore;
+        private readonly ErrorViewModel _errorsViewModel;
+        private readonly CaseManager _caseManager;
+        private readonly Dictionary<Fields, ErrorsModel> _errorlist;
 
+        private void ShowErrors(string property,string propetyName,Fields type)
+        {
+            _errorsViewModel.ClearErrors(nameof(property));
+            if (property.Length < 2 &&type!=Fields.Phone)
+            
+                _errorsViewModel.AddError(propetyName, _errorlist[type].MoreSymbols );
+            
+            else if (property.Length > 50 && type != Fields.Phone)
+            
+                _errorsViewModel.AddError(propetyName, _errorlist[type].LessSymbols);
+            
+            else if (property.Any(ch => !Char.IsLetterOrDigit(ch)))
+            
+               _errorsViewModel.AddError(propetyName, _errorlist[type].LessSymbols);
+
+            else if (property.Where(Char.IsDigit).ToArray().Length==11)
+                _errorsViewModel.AddError(propetyName, _errorlist[type].Phone);
+        }
         public string Name
         {
             get
             {
                
-                return _name;
+                return _user?.Name ?? string.Empty; ;
             }
             set
             {
-                _name = value;
+                _user.Name  = value;
 
-                ClearErrors(nameof(Name));
-                if (_name.Length < 2)
-                {
-                    AddError(nameof(Name), "Invalid Name,It should cosist of at least 2 charachters");
-                }
-                else if (_name.Length > 50)
-                {
-                    AddError(nameof(Name), "Invalid Name,It should cosist of less then 50 characters");
-                }
-                else if (_name.Any(ch => !Char.IsLetterOrDigit(ch)))
-                {
-                    AddError(nameof(Name), "It shouldn't contain spesial symbols");
-                }
+                ShowErrors(_user.Name, nameof(Name),Fields.Name);
                 OnPropertyChanged(nameof(Name));
             }
         }
         public string Surname
         {
-            get => _surname;
+            get => _user?.Surname ?? string.Empty; 
             set
             {
-                _surname = value;
-                ClearErrors(nameof(Surname));
-                if (_surname.Length < 2)
-                {
-                    AddError(nameof(Surname), "Invalid Surname,It should cosist of at least 2 charachters");
-                }
-                else if (_surname.Length > 50)
-                {
-                    AddError(nameof(Surname), "Invalid Surname,It should cosist of less then 50 characters");
-                }
-                else if (_surname.Any(ch => !Char.IsLetterOrDigit(ch)))
-                {
-                    AddError(nameof(Surname), "It shouldn't contain spesial symbols");
-                }
-
+                _user.Surname = value;
+                ShowErrors(_user.Surname,nameof(Surname),Fields.Surname);
                 OnPropertyChanged(nameof(Surname));
             }
         }
-        public bool IsDeleteeButtonOpen { get; }
         public string Phone
         {
-            get => _phone;
+            get => _user?.Phone ?? string.Empty;
             set
             {
 
-                _phone = value;
-                var numbers = _phone.Where(Char.IsDigit).ToArray();
-                ClearErrors(nameof(Phone));
-                if (numbers.Length!=11)
-                {
-                    AddError(nameof(Phone), "It should consist 11 letters");
-                }
-                if (numbers.Length==0)
-                {
-                    AddError(nameof(Phone), "Empty field");
-                }
+                _user.Phone = value;
+                ShowErrors(_user.Phone,nameof(Phone), Fields.Phone);
                 OnPropertyChanged(nameof(Phone));
             }
         }
-
         public string ID
         {
-            get => _id;
+            get => _user?.ID ?? string.Empty;
             set
             {
-                _id = value;
+                _user.ID = value;
                 OnPropertyChanged(nameof(ID));
             }
-        }
-        
-
-        public bool CanCreate => !HasErrors;
+        }      
         public ICommand NavigateHomeCommand { get; private set; }
         public ICommand SaveCommand { get; }
 
         public ICommand DeleteCommand { get; }
-
-
         private bool CanExecuteTakeNoteCommand(object p) => true;
         private void OnExecuteTakeNoteCommand(object p)
         {
             _navigationstore = new NavigationStore();        
-            _selecteduser = new UserModel() { ID=this.ID,Name = this.Name, Surname = this.Surname, Phone = this.Phone };
             if (_caseManager == CaseManager.Save)
-                _worker.AddToXML(_selecteduser);
+                XmlWorker.AddToXML(_user);
             else
-            {
-                MessageBox.Show("Test");
-                _worker.ChangeXML(_selecteduser);
-            }
-               
-
+                XmlWorker.ChangeXML(_user);
             GoHome(_navigationstore);
         }
 
@@ -145,72 +111,40 @@ namespace SwitchingViews.ViewModels
             if (MessageBox.Show("Do you want to delete this field?",
                    "Attention", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                _worker.DeleteFromXml(ID);
+                XmlWorker.DeleteFromXml(ID);
                 _navigationstore = new NavigationStore();
                 GoHome(_navigationstore);
             }
                
         }
-
         private void GoHome(NavigationStore navigationStore)
         {
             navigationStore.CurrentViewModel = new HomeViewModel(navigationStore);
             NavigateHomeCommand.Execute(navigationStore.CurrentViewModel);
         }
-
+        public bool CanOpen=>_caseManager == CaseManager.Change;
         public IEnumerable GetErrors(string? propertyName)
         {
-            return _propertyyErrors.GetValueOrDefault(propertyName,null);
+            return _errorsViewModel.GetErrors(propertyName);
         }
-        private void ClearErrors(string propertyname)
+        public bool HasErrors=>_errorsViewModel.HasErrors;
+        public AccountViewModel(NavigationStore navigationstore,UserModel user,CaseManager caseManager)
         {
-            if (_propertyyErrors.Remove(propertyname))
-
-                OnErrorsChanged(propertyname);
-        }
-
-        public ObservableCollection<UserModel> User { get; set; }
-
-        public bool HasErrors => _propertyyErrors.Any();
-        public bool CanOpen=>_caseManager == CaseManager.Change;
-        public void AddError(string propertyName,string errorMessage)
-        {
-            if (!_propertyyErrors.ContainsKey(propertyName))
-            {
-                _propertyyErrors.Add(propertyName, new List<string>());
-            }
-            _propertyyErrors[propertyName].Add(errorMessage);
-            OnErrorsChanged(propertyName);
-        }
-        private void OnErrorsChanged(string? propertyName)
-        {
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-            OnPropertyChanged(nameof(CanCreate));
-        }
-
-        public AccountViewModel(NavigationStore navigationstore,UserModel model)
-        {            
-            HomeViewModel homeViewModel = new HomeViewModel(navigationstore);
-         
+            _errorlist = new Dictionary<Fields, ErrorsModel>() { {Fields.Name, new ErrorsModel { MoreSymbols = JsonWorker.GetDescription("MoreSymbols", "Name"), LessSymbols = JsonWorker.GetDescription("LessSymbols", "Name"), Incorrectsymbols = JsonWorker.GetDescription("Incorrect Symbols") } },
+                { Fields.Surname,new ErrorsModel { MoreSymbols = JsonWorker.GetDescription("MoreSymbols", "Surname"), LessSymbols = JsonWorker.GetDescription("LessSymbols", "Surname"), Incorrectsymbols = JsonWorker.GetDescription("Incorrect Symbols") } },
+                {Fields.Phone,new ErrorsModel{Phone=JsonWorker.GetDescription("Phone") } } };
+            _errorsViewModel = new ErrorViewModel();
+            _errorsViewModel.ErrorsChanged += Changed;
+            _user = user;
+            _caseManager = caseManager;
             NavigateHomeCommand = new NavigateCommand<HomeViewModel>(navigationstore,()=>new HomeViewModel(navigationstore));
-            if (model is not null)
-            {
-                _caseManager = CaseManager.Change;
-                Name = model.Name;
-                Surname = model.Surname;
-                Phone = model.Phone;
-                ID = model.ID;
-            }
-            
-            
             SaveCommand = new RelayCommand(OnExecuteTakeNoteCommand,CanExecuteTakeNoteCommand);
             DeleteCommand = new RelayCommand(OnExecuteDeleteCommand, CanExecuteDeleteCommand);
 
         }
-     
-
-
-    } 
-    
-    
+        private void Changed(object? sender, DataErrorsChangedEventArgs e)
+        {
+           ErrorsChanged?.Invoke(this, e);
+        }
+    }
 }

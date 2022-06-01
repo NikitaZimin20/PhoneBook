@@ -90,7 +90,7 @@
                 User card
             </TextBlock>
             <TextBox 
-        Name="name"
+            Name="name"
             Width="300"
             FontSize="18"
             materialDesign:HintAssist.Hint="Name"

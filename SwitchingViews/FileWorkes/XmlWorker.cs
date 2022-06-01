@@ -1,5 +1,4 @@
-﻿
-using SwitchingViews.Models;
+﻿using SwitchingViews.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,11 +6,11 @@ using System.Xml;
 using System.Xml.Linq;
 
 
-namespace PhoneBook
+namespace PhoneBook.FileWorkes
 {
-   public class XmlWorker
+    public class XmlWorker
     {
-        public ObservableCollection<UserModel> LoadFromXml(ObservableCollection<UserModel> user)
+        public static ObservableCollection<UserModel> LoadFromXml(ObservableCollection<UserModel> user)
         {
 
             XmlDocument xDoc = new XmlDocument();
@@ -25,7 +24,7 @@ namespace PhoneBook
             return user;
 
         }
-        public void DeleteFromXml(string id)
+        public static void DeleteFromXml(string id)
         {
             XmlDocument xDoc = new XmlDocument();
             xDoc.Load("XMLFile1.xml");
@@ -43,9 +42,9 @@ namespace PhoneBook
         }
 
 
-        public void AddToXML(UserModel model)
+        public static void AddToXML(UserModel model)
         {
-            
+
             var xd = new XmlDocument();
             xd.Load(Configuration.FilePath);
             XmlNode nl = xd.SelectSingleNode("users");
@@ -54,9 +53,9 @@ namespace PhoneBook
             XmlNode n = xd.ImportNode(xd2.FirstChild, true);
             nl.AppendChild(n);
             xd.Save(Configuration.FilePath);
-            
+
         }
-        public void ChangeXML(UserModel user)
+        public static void ChangeXML(UserModel user)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(Configuration.FilePath);
@@ -83,18 +82,18 @@ namespace PhoneBook
             }
             doc.Save(Configuration.FilePath);
         }
-        private void ChangeElement(XmlDocument doc)
+        private static void ChangeElement(XmlDocument doc)
         {
             XmlNodeList aNodes = doc.SelectNodes("users/user");
             int count = aNodes.Count;
 
             for (int i = 0; i < count; i++)
             {
-                aNodes[i].Attributes["ID"].Value = (i+1).ToString();
+                aNodes[i].Attributes["ID"].Value = (i + 1).ToString();
             }
         }
-        
-        private string GetLastID()
+
+        private static string GetLastID()
         {
             var xdoc = XDocument.Load(Configuration.FilePath);
             XElement lastelement = xdoc.Root.Elements("user").LastOrDefault();

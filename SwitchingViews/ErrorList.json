@@ -1,0 +1,6 @@
+{
+  "LessSymbols": "Invalid {field},It should cosist of less then 50 characters",
+  "MoreSymbols": "Invalid {field},It should cosist of at least 2 charachters",
+  "Incorrect Symbols": "It shouldn't contain spesial symbols",
+  "Phone": "It should consist 11 letters"
+}

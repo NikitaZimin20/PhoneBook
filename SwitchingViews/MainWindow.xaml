@@ -10,27 +10,32 @@
         Title="MainWindow" Height="450" Width="800" 
         SizeToContent="WidthAndHeight" 
         WindowStartupLocation="CenterScreen"
+       
+        WindowStyle="None"
         
-        WindowStyle="ToolWindow"
         
         >
-    
-    <ContentControl Content="{Binding CurrentViewModel}" >
-        <ContentControl.Resources>
-            <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}"
-                          >
-             
-                  
-                    <views:HomeView  />
-                
-              
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:AccountViewModel}">
-                <views:AccountView />
-            </DataTemplate>
-            
-           
+    <Grid>
+        
+        <ContentControl Content="{Binding CurrentViewModel}" >
 
-        </ContentControl.Resources>
-    </ContentControl>
+            <ContentControl.Resources>
+
+                <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}"
+                          >
+
+
+                    <views:HomeView />
+
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:AccountViewModel}">
+                    <views:AccountView />
+                </DataTemplate>
+
+
+
+            </ContentControl.Resources>
+        </ContentControl>
+    </Grid>
+    
 </Window>

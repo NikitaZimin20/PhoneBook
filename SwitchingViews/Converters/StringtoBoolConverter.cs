@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PhoneBook.Services;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,20 +12,21 @@ namespace PhoneBook.Converters
 {
     internal class StringtoBoolConverter:IMultiValueConverter
     {
-        Dictionary<string,bool> compare;
+        Dictionary<Fields,bool> compare;
+
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            compare = new Dictionary<string, bool>()
+            compare = new Dictionary<Fields, bool>()
             {
                 {
-                    "name",IsValid(values[0].ToString())
+                    Fields.Name,IsValid(values[0].ToString())
                 },
                 {
-                    "surname",IsValid(values[1].ToString())
+                    Fields.Surname,IsValid(values[1].ToString())
                     
                 },
                 {
-                    "phone",IsNumberValid(values[2].ToString())
+                    Fields.Phone,IsNumberValid(values[2].ToString())
                 }
             };
             if (compare.ContainsValue(false))

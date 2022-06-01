@@ -15,6 +15,8 @@
     <PackageReference Include="DevExpressMvvm" Version="21.1.5" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.3.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="MicrosoftExpressionInteractions" Version="3.0.40218" />
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
