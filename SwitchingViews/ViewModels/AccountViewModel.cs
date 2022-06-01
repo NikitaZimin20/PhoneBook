@@ -25,7 +25,9 @@ namespace SwitchingViews.ViewModels
         private readonly ErrorViewModel _errorsViewModel;
         private readonly CaseManager _caseManager;
         private readonly Dictionary<Fields, ErrorsModel> _errorlist;
-
+        string _name;
+        string _surname;
+        string _phone;
         public bool CanOpen => _caseManager == CaseManager.Change;
         public bool HasErrors => _errorsViewModel.HasErrors;
         public ICommand NavigateHomeCommand { get; private set; }
@@ -36,50 +38,49 @@ namespace SwitchingViews.ViewModels
         {
             get
             {
-               
-                return _user?.Name ?? string.Empty; ;
+                _name= (_name ?? _user?.Name)??string.Empty  ;
+                return _name;
             }
             set
             {
-                _user.Name  = value;
-
-                ShowErrors(_user.Name, nameof(Name),Fields.Name);
+                _name = value;
+                ShowErrors(_name, nameof(Name),Fields.Name);
                 OnPropertyChanged(nameof(Name));
             }
         }
         public string Surname
         {
-            get => _user?.Surname ?? string.Empty; 
+            get
+            {
+               _surname= (_surname??_user?.Surname  )??string.Empty;
+                return _surname;
+            } 
             set
             {
-                _user.Surname = value;
-                ShowErrors(_user.Surname,nameof(Surname),Fields.Surname);
+               _surname = value;
+                ShowErrors(_surname,nameof(Surname),Fields.Surname);
                 OnPropertyChanged(nameof(Surname));
             }
         }
         public string Phone
         {
-            get => _user?.Phone ?? string.Empty;
+            get
+            {
+               _phone= (_phone ?? _user?.Phone)??string.Empty  ;
+                return _phone;
+            } 
             set
             {
-
-                _user.Phone = value;
-                ShowErrors(_user.Phone,nameof(Phone), Fields.Phone);
+                _phone = value;
+                ShowErrors(_phone,nameof(Phone), Fields.Phone);
                 OnPropertyChanged(nameof(Phone));
             }
         }
-        public string ID
-        {
-            get => _user?.ID ?? string.Empty;
-            set
-            {
-                _user.ID = value;
-                OnPropertyChanged(nameof(ID));
-            }
-        }      
+        public string ID =>  _user?.ID ?? string.Empty;
         private bool CanExecuteTakeNoteCommand(object p) => true;
         private void OnExecuteTakeNoteCommand(object p)
         {
+            _user = new UserModel() {ID=ID,Name=_name,Surname=_surname,Phone=_phone };
             _navigationstore = new NavigationStore();        
             if (_caseManager == CaseManager.Save)
                 XmlWorker.AddToXML(_user);

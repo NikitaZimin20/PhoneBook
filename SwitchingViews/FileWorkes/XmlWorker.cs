@@ -1,6 +1,7 @@
 ﻿using SwitchingViews.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
@@ -8,14 +9,18 @@ using System.Xml.Linq;
 
 namespace PhoneBook.FileWorkes
 {
-    public class XmlWorker
+    internal static class XmlWorker
     {
+        private static XmlDocument _xdoc;
+         static XmlWorker()
+        {
+            _xdoc=new XmlDocument();
+            _xdoc.Load(ConfigurationManager.ConnectionStrings["XmlPath"].ConnectionString);
+        }
         public static ObservableCollection<UserModel> LoadFromXml(ObservableCollection<UserModel> user)
         {
-
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.Load(Configuration.FilePath);
-            XmlElement? xRoot = xDoc.DocumentElement;
+            
+            XmlElement? xRoot = _xdoc.DocumentElement;
 
             foreach (XmlElement xnode in xRoot)
             {
@@ -26,9 +31,8 @@ namespace PhoneBook.FileWorkes
         }
         public static void DeleteFromXml(string id)
         {
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.Load("XMLFile1.xml");
-            XmlElement? xRoot = xDoc.DocumentElement;
+            
+            XmlElement? xRoot = _xdoc.DocumentElement;
             foreach (XmlElement item in xRoot)
             {
                 if (item.Attributes.GetNamedItem("ID").Value == id)
@@ -36,32 +40,26 @@ namespace PhoneBook.FileWorkes
                     xRoot.RemoveChild(item);
                 }
             }
-            ChangeElement(xDoc);
-            xDoc.Save(Configuration.FilePath);
+            StartIdNumeration();
+            _xdoc.Save(Configuration.FilePath);
 
         }
 
 
         public static void AddToXML(UserModel model)
         {
-
-            var xd = new XmlDocument();
-            xd.Load(Configuration.FilePath);
-            XmlNode nl = xd.SelectSingleNode("users");
+            XmlNode nl = _xdoc.SelectSingleNode("users");
             XmlDocument xd2 = new XmlDocument();
             xd2.LoadXml("<user ID='" + GetLastID() + "'><name>" + model.Name + "</name><surname>" + model.Surname + "</surname><phone>" + model.Phone + "</phone></user>");
-            XmlNode n = xd.ImportNode(xd2.FirstChild, true);
+            XmlNode n = _xdoc.ImportNode(xd2.FirstChild, true);
             nl.AppendChild(n);
-            xd.Save(Configuration.FilePath);
+            _xdoc.Save(Configuration.FilePath);
 
         }
         public static void ChangeXML(UserModel user)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Configuration.FilePath);
-
-
-            XmlNodeList aNodes = doc.SelectNodes("users/user");
+            
+            XmlNodeList aNodes = _xdoc.SelectNodes("users/user");
 
 
             foreach (XmlNode aNode in aNodes)
@@ -80,11 +78,11 @@ namespace PhoneBook.FileWorkes
                     }
                 }
             }
-            doc.Save(Configuration.FilePath);
+            _xdoc.Save(Configuration.FilePath);
         }
-        private static void ChangeElement(XmlDocument doc)
+        private static void StartIdNumeration()
         {
-            XmlNodeList aNodes = doc.SelectNodes("users/user");
+            XmlNodeList aNodes = _xdoc.SelectNodes("users/user");
             int count = aNodes.Count;
 
             for (int i = 0; i < count; i++)
