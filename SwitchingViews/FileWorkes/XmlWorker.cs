@@ -50,10 +50,11 @@ namespace PhoneBook.FileWorkes
         {
             XmlNode nl = _xdoc.SelectSingleNode("users");
             XmlDocument xd2 = new XmlDocument();
-            xd2.LoadXml("<user ID='" + GetLastID() + "'><name>" + model.Name + "</name><surname>" + model.Surname + "</surname><phone>" + model.Phone + "</phone></user>");
+            xd2.LoadXml("<user ID='" + "1" + "'><name>" + model.Name + "</name><surname>" + model.Surname + "</surname><phone>" + model.Phone + "</phone></user>");
             XmlNode n = _xdoc.ImportNode(xd2.FirstChild, true);
             nl.AppendChild(n);
             _xdoc.Save(ConfigurationManager.ConnectionStrings["JsonPath"].ConnectionString);
+            StartIdNumeration();
 
         }
         public static void ChangeXML(UserModel user)
@@ -91,17 +92,6 @@ namespace PhoneBook.FileWorkes
             }
         }
 
-        private static string GetLastID()
-        {
-            var xdoc = XDocument.Load(ConfigurationManager.ConnectionStrings["JsonPath"].ConnectionString);
-            XElement lastelement = xdoc.Root.Elements("user").LastOrDefault();
-            if (lastelement is null)
-            {
-                return "0";
-            }
-            var value = int.Parse(lastelement.Attribute("ID").Value) + 1;
-            return value.ToString();
-
-        }
+       
     }
 }

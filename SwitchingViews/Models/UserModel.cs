@@ -1,4 +1,8 @@
-﻿using System;
+﻿using PhoneBook.FileWorkes;
+using PhoneBook.Services;
+using SwitchingViews.ViewModels;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,13 +12,29 @@ using System.Threading.Tasks;
 
 namespace SwitchingViews.Models
 {
-    public class UserModel: INotifyPropertyChanged
+    public class UserModel: INotifyPropertyChanged, INotifyDataErrorInfo
     {
         private string _id;
         private string _name;
         private string _surname;
         private string _phone;
-        private UserModel _selecteduser;
+        private readonly ErrorViewModel _errorsViewModel;
+        private readonly Dictionary<Fields, ErrorsModel> _errorlist;
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+        public bool HasErrors => _errorsViewModel.HasErrors;
+        public UserModel()
+        {
+            _errorlist = new Dictionary<Fields, ErrorsModel>() { {Fields.Name, new ErrorsModel { MoreSymbols = JsonWorker.GetDescription("MoreSymbols", "Name"), LessSymbols = JsonWorker.GetDescription("LessSymbols", "Name"), Incorrectsymbols = JsonWorker.GetDescription("Incorrect Symbols") } },
+                { Fields.Surname,new ErrorsModel { MoreSymbols = JsonWorker.GetDescription("MoreSymbols", "Surname"), LessSymbols = JsonWorker.GetDescription("LessSymbols", "Surname"), Incorrectsymbols = JsonWorker.GetDescription("Incorrect Symbols") } },
+                {Fields.Phone,new ErrorsModel{Phone=JsonWorker.GetDescription("Phone") } } };
+            _errorsViewModel = new ErrorViewModel();
+            _errorsViewModel.ErrorsChanged += Changed;
+        }
+
+        private void Changed(object? sender, DataErrorsChangedEventArgs e)
+        {
+            ErrorsChanged?.Invoke(this, e);
+        }
 
         public string ID
         {
@@ -22,6 +42,7 @@ namespace SwitchingViews.Models
             set
             {
                 _id = value;
+              
                 OnPropertyChanged("ID");
             }
         }
@@ -32,7 +53,8 @@ namespace SwitchingViews.Models
             set
             {
                 _name = value;
-                OnPropertyChanged("Name");
+                ShowErrors(value, nameof(Name),Fields.Name);
+                OnPropertyChanged();
             }
         }
 
@@ -42,7 +64,8 @@ namespace SwitchingViews.Models
             set
             {
                 _surname = value;
-                OnPropertyChanged("Surname");
+                ShowErrors(value,nameof(Surname),Fields.Surname);
+                OnPropertyChanged();
             }
         }
 
@@ -52,7 +75,8 @@ namespace SwitchingViews.Models
             set
             {
                 _phone = value;
-                OnPropertyChanged("Phone");
+                ShowErrors(value,nameof(Phone),Fields.Phone);
+                OnPropertyChanged();
             }
         }
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -71,6 +95,29 @@ namespace SwitchingViews.Models
 
             return false;
 
+
+        }
+        public IEnumerable GetErrors(string? propertyName)
+        {
+            return _errorsViewModel.GetErrors(propertyName);
+        }
+        private void ShowErrors(string property, string propetyName, Fields type)
+        {
+            _errorsViewModel.ClearErrors(nameof(property));
+            if (property.Length < 2 && type != Fields.Phone)
+
+                _errorsViewModel.AddError(propetyName, _errorlist[type].MoreSymbols);
+
+            else if (property.Length > 50 && type != Fields.Phone)
+
+                _errorsViewModel.AddError(propetyName, _errorlist[type].LessSymbols);
+
+            else if (property.Any(ch => !Char.IsLetterOrDigit(ch))&&type!=Fields.Phone)
+
+                _errorsViewModel.AddError(propetyName, _errorlist[type].LessSymbols);
+
+            else if (property.Where(Char.IsDigit).ToArray().Length != 11 &&type==Fields.Phone)
+                _errorsViewModel.AddError(propetyName, _errorlist[type].Phone);
 
         }
     }

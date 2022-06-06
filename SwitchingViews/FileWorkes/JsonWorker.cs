@@ -18,9 +18,6 @@ namespace PhoneBook.FileWorkes
             var config = builder.Build();
             if (!replacement.Equals(string.Empty))
                return  config[message].Replace("{field}", replacement);
-
-            
-
             return config[message];
         }
         

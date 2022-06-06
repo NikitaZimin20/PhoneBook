@@ -41,14 +41,14 @@ namespace SwitchingViews.ViewModels
         public UserModel SelectedUser
         {
             get { return _selecteduser; }
-            set { _selecteduser = value;
+            set
+            {
+                _selecteduser = value;
 
                 OnPropertyChanged(nameof(SelectedUser));
-               
+
             }
         }
-        
-
         public HomeViewModel(NavigationStore navigationstore)
         {
             NavigateSaveCommand = new NavigateCommand<AccountViewModel>(navigationstore,()=>new AccountViewModel(navigationstore,SelectedUser,CaseManager.Save));

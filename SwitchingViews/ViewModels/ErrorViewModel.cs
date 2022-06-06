@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SwitchingViews.ViewModels
 {
-    internal class ErrorViewModel: INotifyDataErrorInfo
+    internal  class ErrorViewModel: INotifyDataErrorInfo
     {
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
@@ -38,6 +38,7 @@ namespace SwitchingViews.ViewModels
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
           
         }
+
 
     }
 }
