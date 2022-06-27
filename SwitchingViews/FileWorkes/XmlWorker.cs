@@ -53,7 +53,7 @@ namespace PhoneBook.FileWorkes
             xd2.LoadXml("<user ID='" + "1" + "'><name>" + model.Name + "</name><surname>" + model.Surname + "</surname><phone>" + model.Phone + "</phone></user>");
             XmlNode n = _xdoc.ImportNode(xd2.FirstChild, true);
             nl.AppendChild(n);
-            _xdoc.Save(ConfigurationManager.ConnectionStrings["JsonPath"].ConnectionString);
+            _xdoc.Save(ConfigurationManager.ConnectionStrings["XmlPath"].ConnectionString);
             StartIdNumeration();
 
         }
@@ -79,7 +79,7 @@ namespace PhoneBook.FileWorkes
                     }
                 }
             }
-            _xdoc.Save(ConfigurationManager.ConnectionStrings["JsonPath"].ConnectionString);
+            _xdoc.Save(ConfigurationManager.ConnectionStrings["XmlPath"].ConnectionString);
         }
         private static void StartIdNumeration()
         {

@@ -18,28 +18,21 @@ using System.Windows.Input;
 namespace SwitchingViews.ViewModels
 {
     internal class AccountViewModel : ViewModelBase
-    {
-        public UserModel User { get; }
+    {   private readonly HomeViewModel _homeviewmodel;
+        public UserModel User => _homeviewmodel.SelectedUser;
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
         private NavigationStore _navigationstore;
-       
-        private readonly CaseManager _caseManager;
-       
-      
-        public bool CanOpen => _caseManager == CaseManager.Change;
+        public bool CanOpen => User!=null;
       
         public ICommand NavigateHomeCommand { get; private set; }
         public ICommand SaveCommand { get; }
-
         public ICommand DeleteCommand { get; }
-        
-        
         private bool CanExecuteTakeNoteCommand(object p) => true;
         private void OnExecuteTakeNoteCommand(object p)
         {
             
             _navigationstore = new NavigationStore();        
-            if (_caseManager == CaseManager.Save)
+            if (User==null)
                 XmlWorker.AddToXML(User);
             else
                 XmlWorker.ChangeXML(User);
@@ -64,22 +57,15 @@ namespace SwitchingViews.ViewModels
             navigationStore.CurrentViewModel = new HomeViewModel(navigationStore);
             NavigateHomeCommand.Execute(navigationStore.CurrentViewModel);
         }
-        
-       
-        public AccountViewModel(NavigationStore navigationstore,UserModel user,CaseManager caseManager)
+        public AccountViewModel(NavigationStore navigationstore)
         {
-           
-           
-            User = user ?? new UserModel();
-            _caseManager = caseManager;
+           _homeviewmodel= (HomeViewModel)navigationstore.CurrentViewModel;
             NavigateHomeCommand = new NavigateCommand<HomeViewModel>(navigationstore,()=>new HomeViewModel(navigationstore));
             SaveCommand = new RelayCommand(OnExecuteTakeNoteCommand,CanExecuteTakeNoteCommand);
             DeleteCommand = new RelayCommand(OnExecuteDeleteCommand, CanExecuteDeleteCommand);
 
         }
-        private void Changed(object? sender, DataErrorsChangedEventArgs e)
-        {
-           ErrorsChanged?.Invoke(this, e);
-        }
+
+       
     }
 }

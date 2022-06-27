@@ -19,7 +19,7 @@ namespace SwitchingViews.ViewModels
 {
     internal class HomeViewModel : ViewModelBase
     {
-        
+        public event Action UserChanged;
         private UserModel _selecteduser;
         string _pattern;
         
@@ -44,17 +44,18 @@ namespace SwitchingViews.ViewModels
             set
             {
                 _selecteduser = value;
-
+                UserChanged?.Invoke();
                 OnPropertyChanged(nameof(SelectedUser));
+
 
             }
         }
         public HomeViewModel(NavigationStore navigationstore)
         {
-            NavigateSaveCommand = new NavigateCommand<AccountViewModel>(navigationstore,()=>new AccountViewModel(navigationstore,SelectedUser,CaseManager.Save));
-            NavigateAccountChangeCommand= new NavigateCommand<AccountViewModel>(navigationstore, () => new AccountViewModel(navigationstore, SelectedUser,CaseManager.Change));
-            User = new ObservableCollection<UserModel>();
-            
+       
+            NavigateSaveCommand = new NavigateCommand<AccountViewModel>(navigationstore,()=>new AccountViewModel(navigationstore));
+            NavigateAccountChangeCommand= new NavigateCommand<AccountViewModel>(navigationstore, () => new AccountViewModel(navigationstore));
+            User = new ObservableCollection<UserModel>();           
             OnPropertyChanged(nameof(User));
             User = XmlWorker.LoadFromXml(User);
             
@@ -62,6 +63,7 @@ namespace SwitchingViews.ViewModels
 
 
         }
-      
+
+       
     }
 }
